@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"; 
 import { Persona } from "../components/models/persona";
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -16,5 +16,20 @@ export class ServicePersonas {
     getPersonas(): Observable<any> {
         let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
         return this._http.get(urlApi);
+    }
+
+    getPersonasPromise(): Promise<any> {
+        let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
+        let promise = new Promise((resolve) => {
+            this._http.get(urlApi).subscribe((response) => {
+                resolve(response);
+            })
+        })
+        return promise;
+    }
+
+    async getPersonasAsync(): Promise<Persona[]> {
+        let urlApi = "https://servicioapipersonasmvpgs.azurewebsites.net/api/personas";
+        return firstValueFrom(this._http.get<Persona[]>(urlApi));
     }
 }

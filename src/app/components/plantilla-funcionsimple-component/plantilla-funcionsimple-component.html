@@ -1,0 +1,30 @@
+<h1>Plantilla función simple</h1>
+<div>
+    <label>Seleccione una función</label>
+    <select name="selectfuncion" #selectfuncion class="form-control">
+        @for (fun of funciones; track fun){
+            <option>{{fun}}</option>
+        }
+    </select>
+    <button type="button" class="btn btn-dark mt-3" (click)="mostrarPlantilla()">Mostrar plantilla</button>
+</div>
+<table class="table table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>Apellido</th>
+            <th>Funcion</th>
+            <th>Turno</th>
+            <th>Salario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (person of personas; track person){
+            <tr>
+                <td>{{person.apellido}}</td>
+                <td>{{person.funcion}}</td>
+                <td>{{person.turno}}</td>
+                <td>{{person.salario}}</td>
+            </tr>
+        }
+    </tbody>
+</table>

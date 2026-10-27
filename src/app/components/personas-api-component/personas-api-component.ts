@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ServicePersonas } from '../../services/service.personas';
+import { ServiceComics } from '../../services/service.comics';
 
 @Component({
   selector: 'app-personas-api-component',
@@ -8,18 +9,27 @@ import { ServicePersonas } from '../../services/service.personas';
   templateUrl: './personas-api-component.html',
 })
 export class PersonasApiComponent implements OnInit {
-    public personas: any; // Declaramos la propiedad para evitar el error de TypeScript
+    public personas: any; 
+    public arrayComics: any;
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _service: ServicePersonas
+        private _servicePersonas: ServicePersonas,
+        private _serviceComics: ServiceComics
     ) {}
 
     ngOnInit(): void {
-        this._service.getPersonas().subscribe((response) => {
+        this._servicePersonas.getPersonas().subscribe((response) => {
             console.log("Leyendo personas");
             this.personas = response;
             this._cdr.detectChanges();
+        });
+
+        this._serviceComics.getComics().then((response) => {
+            this.arrayComics = response;
+            this._cdr.detectChanges();
+        }).catch((error: any) => {
+            console.error("Error en el Api", error);
         });
     }
 }
